@@ -10,8 +10,7 @@ const db = firebase.firestore();
 
 const blogposts = db.collection("blogposts");
 
-// // get single blog post
-// const documentToGet = "sample-post";
+// get single blog post
 router.get("/", (req,res) => res.send("Please include an ID"));
 router.get("/:id", (req,res) => {
     const queryID = req.params.id;

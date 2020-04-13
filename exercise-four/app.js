@@ -18,51 +18,52 @@ const firebaseConfig = {
 //initialize firebase
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
-//create empty array
-const blogpostsArray = [];
-//reference to collections
-const blogposts = db.collection("blogposts");
-//get blogposts
-const allBlogPosts = blogposts
-    .get()
-    .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            console.log(`${doc.id} => ${doc.data()}`);
-            //push document into array everytime the query loops over existing articles
-            blogpostsArray.push(doc.data());
-        });
-    })
-    .catch(function (error) {
-          console.log("Error:", error);
-    });
+// const db = firebase.firestore();
+// //create empty array
+// const blogpostsArray = [];
+// //reference to collections
+// const blogposts = db.collection("blogposts");
+// //get blogposts
+// const allBlogPosts = blogposts
+//     .get()
+//     .then((querySnapshot) => {
+//         querySnapshot.forEach((doc) => {
+//             console.log(`${doc.id} => ${doc.data()}`);
+//             //push document into array everytime the query loops over existing articles
+//             blogpostsArray.push(doc.data());
+//         });
+//     })
+//     .catch(function (error) {
+//           console.log("Error:", error);
+//     });
 
 // get single blog post
-const documentToGet = "sample-post";
-const singleBlogPost = blogposts
-    .doc(documentToGet)
-    .get()
-    .then(function (doc) {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
-        }
-    })
-    .catch(function (error) {
-        console.log("Error:", error)
-    });
+// const documentToGet = "sample-post";
+// const singleBlogPost = blogposts
+//     .doc(documentToGet)
+//     .get()
+//     .then(function (doc) {
+//         if (doc.exists) {
+//             console.log("Document data:", doc.data());
+//         } else {
+//             // doc.data() will be undefined in this case
+//             console.log("No such document!");
+//         }
+//     })
+//     .catch(function (error) {
+//         console.log("Error:", error)
+//     });
 
 //import routes
 const indexRoute = require("./routes/index.js");
 const postRoute = require("./routes/post.js");
 const createRoute = require("./routes/createArticle.js");
 
-
 //create base route
 //send JSON array as response
-app.get('/', (req, res) => res.send(blogpostsArray));
+app.use('/', indexRoute);
+app.use('/post', postRoute);
+app.use('/create', createRoute);
 
 app.listen(port, () =>
     console.log(`Example app listening at http://localhost:${port}`)
